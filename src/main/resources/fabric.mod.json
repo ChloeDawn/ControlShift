@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "controlshift",
+  "name": "Control Shift",
+  "version": "$version",
+  "description": "Flips the default sneaking and sprinting key bindings",
+  "license": "Apache-2.0",
+  "environment": "client",
+  "depends": {
+    "fabricloader": ">=0.8.8"
+  },
+  "mixins": [
+    "mixins/controlshift/mixins.json"
+  ],
+  "authors": [
+    {
+      "name": "Chloe Dawn",
+      "contact": {
+        "email": "chloe@sapphic.dev",
+        "homepage": "https://sapphic.dev"
+      }
+    }
+  ],
+  "contact": {
+    "homepage": "https://git.io/JfhNj",
+    "sources": "https://git.io/JfhNj",
+    "issues": "https://git.io/JfhAe"
+  }
+}
