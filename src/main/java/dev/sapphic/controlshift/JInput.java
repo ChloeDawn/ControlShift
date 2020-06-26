@@ -1,8 +1,5 @@
 package dev.sapphic.controlshift;
 
-import org.jetbrains.annotations.ApiStatus;
-
-@ApiStatus.Internal
 interface JInput {
   /**
    * The JInput left control key index

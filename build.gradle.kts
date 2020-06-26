@@ -20,9 +20,6 @@ dependencies {
   minecraft("com.mojang:minecraft:1.16.1")
   mappings("net.fabricmc:yarn:1.16.1+build.5:v2")
   modImplementation("net.fabricmc:fabric-loader:0.8.8+build.202")
-  implementation("org.jetbrains:annotations:19.0.0")
-  implementation("com.google.code.findbugs:jsr305:3.0.2")
-  implementation("org.checkerframework:checker-qual:3.4.1")
 }
 
 tasks.withType<ProcessResources> {

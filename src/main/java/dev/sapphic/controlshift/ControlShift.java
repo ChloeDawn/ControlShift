@@ -17,43 +17,35 @@
 package dev.sapphic.controlshift;
 
 import net.minecraft.client.options.GameOptions;
-import org.checkerframework.common.value.qual.IntVal;
-import org.checkerframework.dataflow.qual.Pure;
-import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Group;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-@ApiStatus.Internal
 @Mixin(value = GameOptions.class, remap = false)
 abstract class ControlShift {
-  @Pure
   @Group(name = "shiftToControl", min = 1, max = 1)
   @ModifyConstant(method = "<init>", constant = @Constant(intValue = GLFW.GLFW_KEY_LEFT_SHIFT), allow = 1)
-  private @IntVal(GLFW.GLFW_KEY_LEFT_CONTROL) int shiftToControlGlfw(final @IntVal(GLFW.GLFW_KEY_LEFT_SHIFT) int shift) {
+  private int shiftToControlGlfw(final int shift) {
     return GLFW.GLFW_KEY_LEFT_CONTROL;
   }
 
-  @Pure
   @Group(name = "controlToShift", max = 1)
   @ModifyConstant(method = "<init>", constant = @Constant(intValue = GLFW.GLFW_KEY_LEFT_CONTROL), allow = 1)
-  private @IntVal(GLFW.GLFW_KEY_LEFT_SHIFT) int controlToShiftGlfw(final @IntVal(GLFW.GLFW_KEY_LEFT_CONTROL) int control) {
+  private int controlToShiftGlfw(final int control) {
     return GLFW.GLFW_KEY_LEFT_SHIFT;
   }
 
-  @Pure
   @Group(name = "shiftToControl", min = 1, max = 1)
   @ModifyConstant(method = "<init>", constant = @Constant(intValue = JInput.KEY_LEFTSHIFT), allow = 1)
-  private @IntVal(JInput.KEY_LEFTCTRL) int shiftToControlJinput(final @IntVal(JInput.KEY_LEFTSHIFT) int shift) {
+  private int shiftToControlJinput(final int shift) {
     return JInput.KEY_LEFTCTRL;
   }
 
-  @Pure
   @Group(name = "controlToShift", max = 1)
   @ModifyConstant(method = "<init>", constant = @Constant(intValue = JInput.KEY_LEFTCTRL), allow = 1)
-  private @IntVal(JInput.KEY_LEFTSHIFT) int controlToShiftJinput(final @IntVal(JInput.KEY_LEFTCTRL) int control) {
+  private int controlToShiftJinput(final int control) {
     return JInput.KEY_LEFTSHIFT;
   }
 }
