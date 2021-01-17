@@ -3,6 +3,7 @@
   "compatibilityLevel": "JAVA_8",
   "required": true,
   "package": "dev.sapphic.controlshift",
-  "client": [ "ControlShift" ],
-  "refmap": "mixins/controlshift/refmap.json"
+  "client": [
+    "ControlShift"
+  ]
 }

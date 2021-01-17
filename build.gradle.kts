@@ -1,45 +1,98 @@
+import org.gradle.util.GradleVersion
+import java.time.Instant
+
 plugins {
-  id("fabric-loom") version "0.4.28"
+  id("fabric-loom") version "0.5.43"
+  id("net.nemerosa.versioning") version "2.6.1"
   id("signing")
 }
 
 group = "dev.sapphic"
-version = "1.1.0"
+version = "2.1.0"
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = sourceCompatibility
-}
-
-minecraft {
-  refmapName = "mixins/controlshift/refmap.json"
-  runDir = "run"
+  withSourcesJar()
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:1.16.1")
-  mappings("net.fabricmc:yarn:1.16.1+build.5:v2")
-  modImplementation("net.fabricmc:fabric-loader:0.8.8+build.202")
+  minecraft("com.mojang:minecraft:1.16.5")
+  mappings(minecraft.officialMojangMappings())
+  modImplementation("net.fabricmc:fabric-loader:0.11.1")
+  implementation("com.google.code.findbugs:jsr305:3.0.2")
+  implementation("org.jetbrains:annotations:20.1.0")
+  implementation("org.checkerframework:checker-qual:3.9.0")
 }
 
-tasks.withType<ProcessResources> {
-  filesMatching("/fabric.mod.json") {
-    expand("version" to version)
+tasks {
+  compileJava {
+    with(options) {
+      release.set(8)
+      isFork = true
+      isDeprecation = true
+      encoding = "UTF-8"
+      compilerArgs.addAll(listOf("-Xlint:all", "-parameters"))
+    }
+  }
+
+  processResources {
+    filesMatching("/fabric.mod.json") {
+      expand("version" to project.version)
+    }
+  }
+
+  jar {
+    from("/LICENSE")
+
+    manifest.attributes(
+      "Build-Timestamp" to Instant.now(),
+      "Build-Revision" to versioning.info.commit,
+      "Build-Jvm" to "${
+        System.getProperty("java.version")
+      } (${
+        System.getProperty("java.vendor")
+      } ${
+        System.getProperty("java.vm.version")
+      })",
+      "Built-By" to GradleVersion.current(),
+
+      "Implementation-Title" to project.name,
+      "Implementation-Version" to project.version,
+      "Implementation-Vendor" to project.group,
+
+      "Specification-Title" to "MinecraftMod",
+      "Specification-Version" to "1.1.0",
+      "Specification-Vendor" to project.group,
+
+      "Sealed" to "true"
+    )
+
+    exclude(minecraft.getRefmapName())
+  }
+
+  assemble {
+    dependsOn(versionFile)
   }
 }
 
-tasks.withType<JavaCompile> {
-  with(options) {
-    isFork = true
-    isDeprecation = true
-    encoding = "UTF-8"
-    compilerArgs.addAll(listOf(
-      "-Xlint:all", "-parameters"
-    ))
-  }
-}
+if (hasProperty("signing.mods.keyalias")) {
+  val alias = property("signing.mods.keyalias")
+  val keystore = property("signing.mods.keystore")
+  val password = property("signing.mods.password")
 
-signing {
-  useGpgCmd()
-  sign(configurations.archives.get())
+  listOf(tasks.remapJar, tasks.remapSourcesJar).forEach {
+    it.get().doLast {
+      val file = outputs.files.singleFile
+      ant.invokeMethod(
+        "signjar", mapOf(
+          "jar" to file,
+          "alias" to alias,
+          "storepass" to password,
+          "keystore" to keystore,
+          "verbose" to true,
+          "preservelastmodified" to true
+        )
+      )
+      signing.sign(file)
+    }
+  }
 }

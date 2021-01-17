@@ -1,5 +1,5 @@
 # ControlShift
-A Minecraft mod that flips the default sneaking and sprinting key bindings
+A Minecraft mod that swaps the default sneaking and sprinting key bindings
 
 ```
 Sneak:  Left Shift -> Left Control
