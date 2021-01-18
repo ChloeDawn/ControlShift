@@ -2,8 +2,8 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "required": true,
-  "package": "dev.sapphic.controlshift",
+  "package": "dev.sapphic.controlshift.mixin",
   "client": [
-    "ControlShift"
+    "OptionsMixin"
   ]
 }

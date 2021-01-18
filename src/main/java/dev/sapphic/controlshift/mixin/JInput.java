@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.sapphic.controlshift;
+package dev.sapphic.controlshift.mixin;
 
 interface JInput {
   /**

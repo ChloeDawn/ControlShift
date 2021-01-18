@@ -2,7 +2,7 @@ import org.gradle.util.GradleVersion
 import java.time.Instant
 
 plugins {
-  id("fabric-loom") version "0.5.43"
+  id("fabric-loom") version "0.6.22"
   id("net.nemerosa.versioning") version "2.6.1"
   id("signing")
 }
@@ -14,6 +14,10 @@ java {
   withSourcesJar()
 }
 
+repositories {
+  maven("https://files.minecraftforge.net/maven/")
+}
+
 dependencies {
   minecraft("com.mojang:minecraft:1.16.5")
   mappings(minecraft.officialMojangMappings())
@@ -21,6 +25,7 @@ dependencies {
   implementation("com.google.code.findbugs:jsr305:3.0.2")
   implementation("org.jetbrains:annotations:20.1.0")
   implementation("org.checkerframework:checker-qual:3.9.0")
+  compileOnly("net.minecraftforge:forge:1.16.5-36.0.1:universal")
 }
 
 tasks {
@@ -59,11 +64,11 @@ tasks {
       "Implementation-Version" to project.version,
       "Implementation-Vendor" to project.group,
 
-      "Specification-Title" to "MinecraftMod",
-      "Specification-Version" to "1.1.0",
+      "Specification-Title" to "ForgeMod",
+      "Specification-Version" to "1.0.0",
       "Specification-Vendor" to project.group,
 
-      "Sealed" to "true"
+      "MixinConfigs" to "dev/sapphic/controlshift/mixins.json"
     )
 
     exclude(minecraft.getRefmapName())
