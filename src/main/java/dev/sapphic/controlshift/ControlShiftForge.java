@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package dev.sapphic.controlshift.mixin;
+package dev.sapphic.controlshift;
 
-interface JInput {
-  /**
-   * The JInput left control key index
-   */
-  int KEY_LEFTCTRL = 29;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
+import org.apache.commons.lang3.tuple.Pair;
 
-  /**
-   * The JInput left shift key index
-   */
-  int KEY_LEFTSHIFT = 42;
+@Mod("controlshift")
+public final class ControlShiftForge {
+  public ControlShiftForge() {
+    ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> {
+      return Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (s, v) -> true);
+    });
+  }
 }

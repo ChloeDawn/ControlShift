@@ -14,6 +14,11 @@ java {
   withSourcesJar()
 }
 
+minecraft {
+  refmapName = "dev/sapphic/controlshift/refmap.json"
+
+}
+
 repositories {
   maven("https://files.minecraftforge.net/maven/")
 }
@@ -66,12 +71,8 @@ tasks {
 
       "Specification-Title" to "ForgeMod",
       "Specification-Version" to "1.0.0",
-      "Specification-Vendor" to project.group,
-
-      "MixinConfigs" to "dev/sapphic/controlshift/mixins.json"
+      "Specification-Vendor" to project.group
     )
-
-    exclude(minecraft.getRefmapName())
   }
 
   assemble {
